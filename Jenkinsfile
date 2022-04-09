@@ -34,5 +34,30 @@ pipeline {
                     }
                 }
         }
-    }  
+        stage('DeployToProduction') {
+            when {
+                branch 'master'
+            }
+            steps {
+                input 'Deploy to Production?'
+                milestone(1)
+                sshagent(credentials : ['ssh_key_staging']) {
+                    sh 'ssh -o StrictHostKeyChecking=no cloud_user@$prod_ip uptime'
+                    sh 'ssh -v cloud_user@$prod_ip'
+                }
+                withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
+                    script {
+                        sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull shobhan/docker-spring:${env.BUILD_NUMBER}\""
+                        try {
+                            sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop docker-spring\""
+                            sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker rm docker-spring\""
+                        } catch (err) {
+                            echo: 'caught error: $err'
+                        }
+                        sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker run --restart always --name docker-spring -p 8080:8080 -d shobhan/docker-spring:${env.BUILD_NUMBER}\""
+                    }
+                }
+            }
+        }   
+    }
 }
