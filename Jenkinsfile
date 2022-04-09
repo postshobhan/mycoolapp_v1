@@ -39,10 +39,10 @@ pipeline {
                 branch 'dev'
             }
             steps {
-                input 'Deploy to Production?'
+                //input 'Deploy to Staging?'
                 milestone(1)
                 sshagent(credentials : ['ssh_key_staging']) {
-                    sh 'ssh -o StrictHostKeyChecking=no cloud_user@$staging_ip uptime'
+                    sh 'ssh -o StrictHostKeyChecking=no cloud_user@$staging_ip \"docker pull shobhan/docker-spring:${env.BUILD_NUMBER}\"'
                     sh 'ssh -v cloud_user@$staging_ip'
                 }
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
