@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Running build automation'
-                sh "mvn clean install"
+                sh "mvn clean install -Dmaven.test.skip"
                 archiveArtifacts artifacts: 'target/*.jar'
             }
         }   
