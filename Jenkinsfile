@@ -18,9 +18,6 @@ pipeline {
                 steps {
                     script {
                         app = docker.build("shobhan/docker-spring")
-                        app.inside {
-                            sh 'echo $(curl localhost:8080)'
-                        }
                     }
                 }
         }
