@@ -39,7 +39,6 @@ pipeline {
                 branch 'dev'
             }
             steps {
-                //input 'Deploy to Staging?'
                 milestone(1)
                 sshagent(credentials : ['ssh_key_staging']) {
                     sh 'ssh -o StrictHostKeyChecking=no cloud_user@$staging_ip \"docker pull shobhan/docker-spring:${env.BUILD_NUMBER}\"'
