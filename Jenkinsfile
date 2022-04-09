@@ -34,9 +34,9 @@ pipeline {
                     }
                 }
         }
-        stage('DeployToProduction') {
+        stage('DeployToStaging') {
             when {
-                branch 'master'
+                branch 'dev'
             }
             steps {
                 input 'Deploy to Production?'
