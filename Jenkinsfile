@@ -2,10 +2,10 @@ pipeline {
     agent any
     stages {
         stage('Build') {
-            withMaven {
-                sh "mvn clean install"
-            }
             steps {
+                withMaven {
+                    sh "mvn clean install"
+                }
                 echo 'Running build automation'    
                 archiveArtifacts artifacts: 'target/*.jar'
             }
