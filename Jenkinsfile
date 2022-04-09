@@ -6,8 +6,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                echo 'Running build automation'
                 sh "mvn clean install"
-                echo 'Running build automation'    
                 archiveArtifacts artifacts: 'target/*.jar'
             }
         }
