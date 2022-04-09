@@ -50,7 +50,7 @@ pipeline {
                         } catch(err) {
                             echo: 'caught error: $err'
                         }
-                        sh "ssh -o StrictHostKeyChecking=no cloud_user@$staging_ip \"docker run --restart always --name docker-spring -p 8080:8080 -d shobhan/docker-spring:${env.BUILD_NUMBER}\""
+                        sh "ssh -o StrictHostKeyChecking=no cloud_user@$staging_ip \"docker run --restart always --name docker-spring -p 30080:8080 -d shobhan/docker-spring:${env.BUILD_NUMBER}\""
                     }
                 }
             }
