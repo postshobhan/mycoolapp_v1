@@ -10,8 +10,7 @@ pipeline {
                 sh "mvn clean install"
                 archiveArtifacts artifacts: 'target/*.jar'
             }
-        }
-    
+        }   
         stage('Build Docker Image') {
                 when {
                     branch 'dev'
@@ -38,7 +37,5 @@ pipeline {
                     }
                 }
         }
-    }
-    
-    
+    }  
 }
