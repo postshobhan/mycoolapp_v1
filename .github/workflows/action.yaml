@@ -5,4 +5,4 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: [self-hosted, linux, dev1]
     steps:
-      - run: echo "Hello cloud gurus"
+      - run: echo "Hello from Gihub Actions !!!"
